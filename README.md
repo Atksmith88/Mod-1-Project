@@ -10,7 +10,7 @@
 -[Further Examining Variable Features](#Further-Examining-Variable-Features) <br>
 -[Model Creation & Experimentation](#Model-Creation-&-Experimentation) <br>
 -[Validation](#Validation) <br>
--[Results & Summary](#Results-&-Summary) <br>
+-[Results & Summary](#Results-&-Summary)
 
 ## Library & Data Import
 
@@ -834,7 +834,7 @@ plt.scatter(df['total_rooms'], df['price'])
 
 
 
-    <matplotlib.collections.PathCollection at 0x1ebc1bd7c50>
+    <matplotlib.collections.PathCollection at 0x17303fb9a58>
 
 
 
@@ -862,7 +862,7 @@ sns.boxplot(df['condition'], df['price'], showfliers = False)
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x1ebc46bd0f0>
+    <matplotlib.axes._subplots.AxesSubplot at 0x17303f95898>
 
 
 
@@ -879,7 +879,7 @@ sns.boxplot(df['grade'], df['price'], showfliers = False)
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x1ebc1a70f98>
+    <matplotlib.axes._subplots.AxesSubplot at 0x17303cafa90>
 
 
 
@@ -896,7 +896,7 @@ sns.boxplot(df['season'], df['price'], showfliers = False)
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x1ebc1c4c320>
+    <matplotlib.axes._subplots.AxesSubplot at 0x17303cd3e10>
 
 
 
@@ -913,7 +913,7 @@ sns.boxplot(df['floors'], df['price'], showfliers = False)
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x1ebc1bf0cc0>
+    <matplotlib.axes._subplots.AxesSubplot at 0x17303599ac8>
 
 
 
@@ -948,7 +948,7 @@ ols, res = make_ols_model(df, columns_to_use = variable_features, add_constant =
     Model:                            OLS   Adj. R-squared:                  0.850
     Method:                 Least Squares   F-statistic:                 1.754e+04
     Date:                Fri, 27 Sep 2019   Prob (F-statistic):               0.00
-    Time:                        12:02:51   Log-Likelihood:            -2.9931e+05
+    Time:                        12:34:51   Log-Likelihood:            -2.9931e+05
     No. Observations:               21597   AIC:                         5.986e+05
     Df Residuals:                   21590   BIC:                         5.987e+05
     Df Model:                           7                                         
@@ -995,7 +995,7 @@ ols, res = make_ols_model(df, columns_to_use = variable_features, add_constant =
     Model:                            OLS   Adj. R-squared:                  0.843
     Method:                 Least Squares   F-statistic:                 1.939e+04
     Date:                Fri, 27 Sep 2019   Prob (F-statistic):               0.00
-    Time:                        12:02:54   Log-Likelihood:            -2.9980e+05
+    Time:                        12:35:00   Log-Likelihood:            -2.9980e+05
     No. Observations:               21597   AIC:                         5.996e+05
     Df Residuals:                   21591   BIC:                         5.997e+05
     Df Model:                           6                                         
@@ -1050,7 +1050,7 @@ ols, res = make_ols_model(df, columns_to_use = variable_features, add_constant =
     Model:                            OLS   Adj. R-squared:                  0.823
     Method:                 Least Squares   F-statistic:                 1.437e+04
     Date:                Fri, 27 Sep 2019   Prob (F-statistic):               0.00
-    Time:                        12:02:58   Log-Likelihood:            -3.0111e+05
+    Time:                        12:35:03   Log-Likelihood:            -3.0111e+05
     No. Observations:               21597   AIC:                         6.022e+05
     Df Residuals:                   21590   BIC:                         6.023e+05
     Df Model:                           7                                         
@@ -1134,7 +1134,7 @@ ols, res = make_ols_model(df, columns_to_use = variable_features, add_constant =
     Model:                            OLS   Adj. R-squared:                  0.820
     Method:                 Least Squares   F-statistic:                 1.636e+04
     Date:                Fri, 27 Sep 2019   Prob (F-statistic):               0.00
-    Time:                        12:03:11   Log-Likelihood:            -3.0131e+05
+    Time:                        12:35:10   Log-Likelihood:            -3.0131e+05
     No. Observations:               21596   AIC:                         6.026e+05
     Df Residuals:                   21590   BIC:                         6.027e+05
     Df Model:                           6                                         
@@ -1591,7 +1591,7 @@ ols, res = make_ols_model(df = df_trimmed, columns_to_use = variable_features, a
     Model:                            OLS   Adj. R-squared:                  0.860
     Method:                 Least Squares   F-statistic:                 2.182e+04
     Date:                Fri, 27 Sep 2019   Prob (F-statistic):               0.00
-    Time:                        12:03:24   Log-Likelihood:            -2.9415e+05
+    Time:                        12:35:31   Log-Likelihood:            -2.9415e+05
     No. Observations:               21383   AIC:                         5.883e+05
     Df Residuals:                   21377   BIC:                         5.884e+05
     Df Model:                           6                                         
@@ -1819,6 +1819,25 @@ df_trimmed2.iloc[149:153]
 
 
 ```python
+variable_features = ['sqft_living_log', 'grade', 
+                    'total_rooms', 'condition']
+make_reg_graph(df = df_trimmed2, columns = variable_features, figsize = (15, 10))
+```
+
+
+![png](student_files/student_60_0.png)
+
+
+
+```python
+# Removing outliers from sqft_living and grade
+df_trimmed2 = df_trimmed2.loc[df_trimmed2['sqft_living_log'] < 9.3]
+df_trimmed2 = df_trimmed2.loc[df_trimmed2['grade'] >= 4]
+df_trimmed2 = df_trimmed2.loc[df_trimmed2['grade'] <= 12]
+```
+
+
+```python
 # Experiment #6
 variable_features = ['sqft_living_log', 'condition', 
                      'grade', 'total_rooms']
@@ -1829,25 +1848,25 @@ ols, res = make_ols_model(df = df_trimmed2, columns_to_use = variable_features, 
     ==============================================================================
     Dep. Variable:                  price   R-squared:                       0.874
     Model:                            OLS   Adj. R-squared:                  0.874
-    Method:                 Least Squares   F-statistic:                 3.698e+04
+    Method:                 Least Squares   F-statistic:                 3.702e+04
     Date:                Fri, 27 Sep 2019   Prob (F-statistic):               0.00
-    Time:                        12:03:40   Log-Likelihood:            -2.9116e+05
-    No. Observations:               21299   AIC:                         5.823e+05
-    Df Residuals:                   21295   BIC:                         5.824e+05
+    Time:                        12:36:40   Log-Likelihood:            -2.9103e+05
+    No. Observations:               21293   AIC:                         5.821e+05
+    Df Residuals:                   21289   BIC:                         5.821e+05
     Df Model:                           4                                         
     Covariance Type:            nonrobust                                         
     ===================================================================================
                           coef    std err          t      P>|t|      [0.025      0.975]
     -----------------------------------------------------------------------------------
-    sqft_living_log -1.494e+05   2326.912    -64.224      0.000   -1.54e+05   -1.45e+05
-    condition        3.799e+04   2217.701     17.132      0.000    3.36e+04    4.23e+04
-    grade            1.651e+05   1759.244     93.823      0.000    1.62e+05    1.69e+05
-    total_rooms      4.732e+04   1253.306     37.753      0.000    4.49e+04    4.98e+04
+    sqft_living_log -1.484e+05   2324.650    -63.838      0.000   -1.53e+05   -1.44e+05
+    condition        3.793e+04   2212.898     17.139      0.000    3.36e+04    4.23e+04
+    grade            1.642e+05   1758.994     93.331      0.000    1.61e+05    1.68e+05
+    total_rooms      4.712e+04   1251.669     37.644      0.000    4.47e+04    4.96e+04
     ==============================================================================
-    Omnibus:                     4937.243   Durbin-Watson:                   1.951
-    Prob(Omnibus):                  0.000   Jarque-Bera (JB):            13008.112
-    Skew:                           1.251   Prob(JB):                         0.00
-    Kurtosis:                       5.898   Cond. No.                         27.8
+    Omnibus:                     4912.325   Durbin-Watson:                   1.951
+    Prob(Omnibus):                  0.000   Jarque-Bera (JB):            12856.320
+    Skew:                           1.248   Prob(JB):                         0.00
+    Kurtosis:                       5.874   Cond. No.                         27.8
     ==============================================================================
     
     Warnings:
@@ -1861,11 +1880,11 @@ make_residual_plots(residuals = residuals)
 ```
 
 
-![png](student_files/student_61_0.png)
+![png](student_files/student_63_0.png)
 
 
 
-![png](student_files/student_61_1.png)
+![png](student_files/student_63_1.png)
 
 
 ### Experiment #6 Observations
@@ -1875,7 +1894,7 @@ R-Squared, P-Values, Condition Number, Skew, and Kurtosis are all looking pretty
 
 
 ```python
-variable_features = ['sqft_living', 'grade', 
+variable_features = ['sqft_living_log', 'grade', 
                      'total_rooms', 'condition']
 X = df_trimmed2[variable_features]
 y = df_trimmed2['price']
@@ -1893,10 +1912,10 @@ print(linreg.score(X, y))
 print(linreg.coef_)
 ```
 
-    0.5275910608799861
-    0.5082342912305322
-    0.5132112267321329
-    [   217.36965229  41439.07531927 -40730.90538456  -5007.36216663]
+    0.46726117492541175
+    0.44791299575109983
+    0.45297288211429293
+    [-146177.94552146  162290.85186522   47053.30400782   36861.60761345]
     
 
 
@@ -1905,7 +1924,7 @@ cv = cross_val_score(linreg, X, y, cv=5, n_jobs=-1, scoring='r2', verbose=2)
 ```
 
     [Parallel(n_jobs=-1)]: Using backend LokyBackend with 4 concurrent workers.
-    [Parallel(n_jobs=-1)]: Done   5 out of   5 | elapsed:    5.3s finished
+    [Parallel(n_jobs=-1)]: Done   5 out of   5 | elapsed:    2.4s finished
     
 
 
@@ -1916,7 +1935,7 @@ cv
 
 
 
-    array([0.49328599, 0.49111106, 0.51490508, 0.52540201, 0.53171582])
+    array([0.45143528, 0.43506335, 0.45128987, 0.468521  , 0.44866114])
 
 
 
@@ -1928,7 +1947,7 @@ cv.mean()
 
 
 
-    0.5112839912790249
+    0.45099412933388283
 
 
 
@@ -1940,32 +1959,13 @@ cv.std()
 
 
 
-    0.016497064166688655
+    0.010646181347353895
 
 
 
 
 ```python
-variable_features = ['sqft_living', 'grade', 
-                    'total_rooms', 'condition']
-make_reg_graph(df = df_trimmed2, columns = variable_features, figsize = (15, 10))
-```
-
-
-![png](student_files/student_69_0.png)
-
-
-
-```python
-# Removing outliers from sqft_living and grade
-df_trimmed2 = df_trimmed2.loc[df_trimmed2['sqft_living'] < 12000]
-df_trimmed2 = df_trimmed2.loc[df_trimmed2['grade'] >= 4]
-df_trimmed2 = df_trimmed2.loc[df_trimmed2['grade'] <= 12]
-```
-
-
-```python
-variable_features = ['sqft_living', 'grade', 
+variable_features = ['sqft_living_log', 'grade', 
                     'total_rooms', 'condition']
 make_reg_graph(df = df_trimmed2, columns = variable_features, figsize = (15, 10))
 ```
@@ -1986,8 +1986,3 @@ I feel pretty comfortable with this particular model based on the numbers presen
 Were I to continue investigating the data, I would push towards verifying that the chosen features are not multicolinear which, as it stands they seem to not be based on the Condition Number, but as there are signs of multicolinearity based on the correlation values in the heatmaps.
 
 In the future, I would want to gather more data on other features that could be changed via renovation, such as adding a pool or upgrading the bathroom and kitchen fixtures, to see what effect that could have on the overall price.
-
-
-```python
-
-```
