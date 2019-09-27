@@ -50,7 +50,6 @@ def make_heatmap(df = df, columns = None, figsize = (20, 20)):
         corr = df.corr()
     else:
         corr = df[columns].corr()
-
     plt.figure(figsize = figsize)
     sns.heatmap(np.abs(corr), cmap = sns.color_palette('Blues'), annot = True, fmt = '0.2g')
     plt.show()
@@ -60,13 +59,10 @@ def make_heatmap(df = df, columns = None, figsize = (20, 20)):
 ```python
 # Creating an OLS Model that can be easily altered to look at the results.
 def make_ols_model(df = df, target = 'price', columns_to_use = None, add_constant = True):
-
     X = df[columns_to_use]
     y = df[target]
-
     if add_constant:
         X = sm.add_constant(X)
-    
     ols = sm.OLS(y, X)
     results = ols.fit()
     print(results.summary())
@@ -75,7 +71,7 @@ def make_ols_model(df = df, target = 'price', columns_to_use = None, add_constan
 
 
 ```python
-# Creating Histograms to help view data normalization
+# Creating Histograms to help view data normalization.
 def make_histogram(df = df, column = 'price', bins = 20):
     plt.figure(figsize = (8, 5))
     plt.hist(df[column], bins = bins)
@@ -85,6 +81,7 @@ def make_histogram(df = df, column = 'price', bins = 20):
 
 
 ```python
+# Creating Linear Regression graphs that can look at single or multiple columns, and lay them out nicely if multiple.
 def make_reg_graph(df = df, columns = None, target = 'price', figsize = (8,8)):
     y = df[target].values.reshape(-1, 1)
     linreg = LinearRegression()
@@ -113,18 +110,14 @@ def make_reg_graph(df = df, columns = None, target = 'price', figsize = (8,8)):
 
 
 ```python
+# Plotting residuals to see outliers and homoskedacity.
 def make_residual_plots(residuals):
-    # create xvalues for residual plot
     x = np.linspace(0, 1, residuals.shape[0])
-    
-    # plot residuals
     plt.figure(figsize=(8, 5))
     plt.scatter(x, residuals, alpha=0.7, c='purple')
     plt.title("Residuals")
     plt.hlines(y=0, colors='r', xmin=0, xmax=1, linewidth=3)
-    plt.show()
-    
-    
+    plt.show()    
     plt.figure(figsize=(8, 5))
     plt.hist(residuals, bins=20, color='purple')
     plt.title("Residuals Histogram")
@@ -159,6 +152,7 @@ df.head()
   <thead>
     <tr style="text-align: right;">
       <th></th>
+      <th>id</th>
       <th>date</th>
       <th>price</th>
       <th>bedrooms</th>
@@ -168,8 +162,8 @@ df.head()
       <th>floors</th>
       <th>waterfront</th>
       <th>view</th>
-      <th>condition</th>
       <th>...</th>
+      <th>grade</th>
       <th>sqft_above</th>
       <th>sqft_basement</th>
       <th>yr_built</th>
@@ -179,23 +173,23 @@ df.head()
       <th>long</th>
       <th>sqft_living15</th>
       <th>sqft_lot15</th>
-      <th>season</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>2014-10-13</td>
+      <td>7129300520</td>
+      <td>10/13/2014</td>
       <td>221900.0</td>
       <td>3</td>
       <td>1.00</td>
       <td>1180</td>
       <td>5650</td>
-      <td>1</td>
+      <td>1.0</td>
+      <td>NaN</td>
       <td>0.0</td>
-      <td>0.0</td>
-      <td>3</td>
       <td>...</td>
+      <td>7</td>
       <td>1180</td>
       <td>0.0</td>
       <td>1955</td>
@@ -205,21 +199,21 @@ df.head()
       <td>-122.257</td>
       <td>1340</td>
       <td>5650</td>
-      <td>3</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>2014-12-09</td>
+      <td>6414100192</td>
+      <td>12/9/2014</td>
       <td>538000.0</td>
       <td>3</td>
       <td>2.25</td>
       <td>2570</td>
       <td>7242</td>
-      <td>2</td>
+      <td>2.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>3</td>
       <td>...</td>
+      <td>7</td>
       <td>2170</td>
       <td>400.0</td>
       <td>1951</td>
@@ -229,45 +223,45 @@ df.head()
       <td>-122.319</td>
       <td>1690</td>
       <td>7639</td>
-      <td>0</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>2015-02-25</td>
+      <td>5631500400</td>
+      <td>2/25/2015</td>
       <td>180000.0</td>
       <td>2</td>
       <td>1.00</td>
       <td>770</td>
       <td>10000</td>
-      <td>1</td>
+      <td>1.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>3</td>
       <td>...</td>
+      <td>6</td>
       <td>770</td>
       <td>0.0</td>
       <td>1933</td>
-      <td>0.0</td>
+      <td>NaN</td>
       <td>98028</td>
       <td>47.7379</td>
       <td>-122.233</td>
       <td>2720</td>
       <td>8062</td>
-      <td>0</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>2014-12-09</td>
+      <td>2487200875</td>
+      <td>12/9/2014</td>
       <td>604000.0</td>
       <td>4</td>
       <td>3.00</td>
       <td>1960</td>
       <td>5000</td>
-      <td>1</td>
+      <td>1.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>5</td>
       <td>...</td>
+      <td>7</td>
       <td>1050</td>
       <td>910.0</td>
       <td>1965</td>
@@ -277,21 +271,21 @@ df.head()
       <td>-122.393</td>
       <td>1360</td>
       <td>5000</td>
-      <td>0</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>2015-02-18</td>
+      <td>1954400510</td>
+      <td>2/18/2015</td>
       <td>510000.0</td>
       <td>3</td>
       <td>2.00</td>
       <td>1680</td>
       <td>8080</td>
-      <td>1</td>
+      <td>1.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>3</td>
       <td>...</td>
+      <td>8</td>
       <td>1680</td>
       <td>0.0</td>
       <td>1987</td>
@@ -301,7 +295,6 @@ df.head()
       <td>-122.045</td>
       <td>1800</td>
       <td>7503</td>
-      <td>0</td>
     </tr>
   </tbody>
 </table>
@@ -398,6 +391,7 @@ df.describe()
   <thead>
     <tr style="text-align: right;">
       <th></th>
+      <th>id</th>
       <th>price</th>
       <th>bedrooms</th>
       <th>bathrooms</th>
@@ -409,7 +403,6 @@ df.describe()
       <th>condition</th>
       <th>grade</th>
       <th>sqft_above</th>
-      <th>sqft_basement</th>
       <th>yr_built</th>
       <th>yr_renovated</th>
       <th>zipcode</th>
@@ -417,27 +410,25 @@ df.describe()
       <th>long</th>
       <th>sqft_living15</th>
       <th>sqft_lot15</th>
-      <th>season</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>count</th>
       <td>2.159700e+04</td>
+      <td>2.159700e+04</td>
       <td>21597.000000</td>
       <td>21597.000000</td>
       <td>21597.000000</td>
       <td>2.159700e+04</td>
       <td>21597.000000</td>
+      <td>19221.000000</td>
+      <td>21534.000000</td>
       <td>21597.000000</td>
       <td>21597.000000</td>
       <td>21597.000000</td>
       <td>21597.000000</td>
-      <td>21597.000000</td>
-      <td>21597.000000</td>
-      <td>21597.000000</td>
-      <td>21597.000000</td>
-      <td>21597.000000</td>
+      <td>17755.000000</td>
       <td>21597.000000</td>
       <td>21597.000000</td>
       <td>21597.000000</td>
@@ -446,52 +437,51 @@ df.describe()
     </tr>
     <tr>
       <th>mean</th>
+      <td>4.580474e+09</td>
       <td>5.402966e+05</td>
       <td>3.373200</td>
       <td>2.115826</td>
       <td>2080.321850</td>
       <td>1.509941e+04</td>
-      <td>1.445988</td>
-      <td>0.006760</td>
-      <td>0.233181</td>
+      <td>1.494096</td>
+      <td>0.007596</td>
+      <td>0.233863</td>
       <td>3.409825</td>
       <td>7.657915</td>
       <td>1788.596842</td>
-      <td>285.716581</td>
       <td>1970.999676</td>
-      <td>68.758207</td>
+      <td>83.636778</td>
       <td>98077.951845</td>
       <td>47.560093</td>
       <td>-122.213982</td>
       <td>1986.620318</td>
       <td>12758.283512</td>
-      <td>1.590128</td>
     </tr>
     <tr>
       <th>std</th>
+      <td>2.876736e+09</td>
       <td>3.673681e+05</td>
       <td>0.926299</td>
       <td>0.768984</td>
       <td>918.106125</td>
       <td>4.141264e+04</td>
-      <td>0.551658</td>
-      <td>0.081944</td>
-      <td>0.764673</td>
+      <td>0.539683</td>
+      <td>0.086825</td>
+      <td>0.765686</td>
       <td>0.650546</td>
       <td>1.173200</td>
       <td>827.759761</td>
-      <td>439.819830</td>
       <td>29.375234</td>
-      <td>364.037499</td>
+      <td>399.946414</td>
       <td>53.513072</td>
       <td>0.138552</td>
       <td>0.140724</td>
       <td>685.230472</td>
       <td>27274.441950</td>
-      <td>1.025825</td>
     </tr>
     <tr>
       <th>min</th>
+      <td>1.000102e+06</td>
       <td>7.800000e+04</td>
       <td>1.000000</td>
       <td>0.500000</td>
@@ -503,7 +493,6 @@ df.describe()
       <td>1.000000</td>
       <td>3.000000</td>
       <td>370.000000</td>
-      <td>0.000000</td>
       <td>1900.000000</td>
       <td>0.000000</td>
       <td>98001.000000</td>
@@ -511,10 +500,10 @@ df.describe()
       <td>-122.519000</td>
       <td>399.000000</td>
       <td>651.000000</td>
-      <td>0.000000</td>
     </tr>
     <tr>
       <th>25%</th>
+      <td>2.123049e+09</td>
       <td>3.220000e+05</td>
       <td>3.000000</td>
       <td>1.750000</td>
@@ -526,7 +515,6 @@ df.describe()
       <td>3.000000</td>
       <td>7.000000</td>
       <td>1190.000000</td>
-      <td>0.000000</td>
       <td>1951.000000</td>
       <td>0.000000</td>
       <td>98033.000000</td>
@@ -534,22 +522,21 @@ df.describe()
       <td>-122.328000</td>
       <td>1490.000000</td>
       <td>5100.000000</td>
-      <td>1.000000</td>
     </tr>
     <tr>
       <th>50%</th>
+      <td>3.904930e+09</td>
       <td>4.500000e+05</td>
       <td>3.000000</td>
       <td>2.250000</td>
       <td>1910.000000</td>
       <td>7.618000e+03</td>
-      <td>1.000000</td>
+      <td>1.500000</td>
       <td>0.000000</td>
       <td>0.000000</td>
       <td>3.000000</td>
       <td>7.000000</td>
       <td>1560.000000</td>
-      <td>0.000000</td>
       <td>1975.000000</td>
       <td>0.000000</td>
       <td>98065.000000</td>
@@ -557,10 +544,10 @@ df.describe()
       <td>-122.231000</td>
       <td>1840.000000</td>
       <td>7620.000000</td>
-      <td>2.000000</td>
     </tr>
     <tr>
       <th>75%</th>
+      <td>7.308900e+09</td>
       <td>6.450000e+05</td>
       <td>4.000000</td>
       <td>2.500000</td>
@@ -572,7 +559,6 @@ df.describe()
       <td>4.000000</td>
       <td>8.000000</td>
       <td>2210.000000</td>
-      <td>550.000000</td>
       <td>1997.000000</td>
       <td>0.000000</td>
       <td>98118.000000</td>
@@ -580,22 +566,21 @@ df.describe()
       <td>-122.125000</td>
       <td>2360.000000</td>
       <td>10083.000000</td>
-      <td>2.000000</td>
     </tr>
     <tr>
       <th>max</th>
+      <td>9.900000e+09</td>
       <td>7.700000e+06</td>
       <td>33.000000</td>
       <td>8.000000</td>
       <td>13540.000000</td>
       <td>1.651359e+06</td>
-      <td>3.000000</td>
+      <td>3.500000</td>
       <td>1.000000</td>
       <td>4.000000</td>
       <td>5.000000</td>
       <td>13.000000</td>
       <td>9410.000000</td>
-      <td>4820.000000</td>
       <td>2015.000000</td>
       <td>2015.000000</td>
       <td>98199.000000</td>
@@ -603,7 +588,6 @@ df.describe()
       <td>-121.315000</td>
       <td>6210.000000</td>
       <td>871200.000000</td>
-      <td>3.000000</td>
     </tr>
   </tbody>
 </table>
@@ -850,7 +834,7 @@ plt.scatter(df['total_rooms'], df['price'])
 
 
 
-    <matplotlib.collections.PathCollection at 0x21161ed8780>
+    <matplotlib.collections.PathCollection at 0x1ebc1bd7c50>
 
 
 
@@ -878,7 +862,7 @@ sns.boxplot(df['condition'], df['price'], showfliers = False)
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x21164074ba8>
+    <matplotlib.axes._subplots.AxesSubplot at 0x1ebc46bd0f0>
 
 
 
@@ -895,7 +879,7 @@ sns.boxplot(df['grade'], df['price'], showfliers = False)
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x211656cd978>
+    <matplotlib.axes._subplots.AxesSubplot at 0x1ebc1a70f98>
 
 
 
@@ -912,7 +896,7 @@ sns.boxplot(df['season'], df['price'], showfliers = False)
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x21163eb5cf8>
+    <matplotlib.axes._subplots.AxesSubplot at 0x1ebc1c4c320>
 
 
 
@@ -929,7 +913,7 @@ sns.boxplot(df['floors'], df['price'], showfliers = False)
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x2116216e080>
+    <matplotlib.axes._subplots.AxesSubplot at 0x1ebc1bf0cc0>
 
 
 
@@ -963,8 +947,8 @@ ols, res = make_ols_model(df, columns_to_use = variable_features, add_constant =
     Dep. Variable:                  price   R-squared:                       0.850
     Model:                            OLS   Adj. R-squared:                  0.850
     Method:                 Least Squares   F-statistic:                 1.754e+04
-    Date:                Thu, 26 Sep 2019   Prob (F-statistic):               0.00
-    Time:                        20:13:04   Log-Likelihood:            -2.9931e+05
+    Date:                Fri, 27 Sep 2019   Prob (F-statistic):               0.00
+    Time:                        12:02:51   Log-Likelihood:            -2.9931e+05
     No. Observations:               21597   AIC:                         5.986e+05
     Df Residuals:                   21590   BIC:                         5.987e+05
     Df Model:                           7                                         
@@ -1010,8 +994,8 @@ ols, res = make_ols_model(df, columns_to_use = variable_features, add_constant =
     Dep. Variable:                  price   R-squared:                       0.843
     Model:                            OLS   Adj. R-squared:                  0.843
     Method:                 Least Squares   F-statistic:                 1.939e+04
-    Date:                Thu, 26 Sep 2019   Prob (F-statistic):               0.00
-    Time:                        20:13:08   Log-Likelihood:            -2.9980e+05
+    Date:                Fri, 27 Sep 2019   Prob (F-statistic):               0.00
+    Time:                        12:02:54   Log-Likelihood:            -2.9980e+05
     No. Observations:               21597   AIC:                         5.996e+05
     Df Residuals:                   21591   BIC:                         5.997e+05
     Df Model:                           6                                         
@@ -1065,8 +1049,8 @@ ols, res = make_ols_model(df, columns_to_use = variable_features, add_constant =
     Dep. Variable:                  price   R-squared:                       0.823
     Model:                            OLS   Adj. R-squared:                  0.823
     Method:                 Least Squares   F-statistic:                 1.437e+04
-    Date:                Thu, 26 Sep 2019   Prob (F-statistic):               0.00
-    Time:                        20:17:02   Log-Likelihood:            -3.0111e+05
+    Date:                Fri, 27 Sep 2019   Prob (F-statistic):               0.00
+    Time:                        12:02:58   Log-Likelihood:            -3.0111e+05
     No. Observations:               21597   AIC:                         6.022e+05
     Df Residuals:                   21590   BIC:                         6.023e+05
     Df Model:                           7                                         
@@ -1149,8 +1133,8 @@ ols, res = make_ols_model(df, columns_to_use = variable_features, add_constant =
     Dep. Variable:                  price   R-squared:                       0.820
     Model:                            OLS   Adj. R-squared:                  0.820
     Method:                 Least Squares   F-statistic:                 1.636e+04
-    Date:                Thu, 26 Sep 2019   Prob (F-statistic):               0.00
-    Time:                        20:17:16   Log-Likelihood:            -3.0131e+05
+    Date:                Fri, 27 Sep 2019   Prob (F-statistic):               0.00
+    Time:                        12:03:11   Log-Likelihood:            -3.0131e+05
     No. Observations:               21596   AIC:                         6.026e+05
     Df Residuals:                   21590   BIC:                         6.027e+05
     Df Model:                           6                                         
@@ -1606,8 +1590,8 @@ ols, res = make_ols_model(df = df_trimmed, columns_to_use = variable_features, a
     Dep. Variable:                  price   R-squared:                       0.860
     Model:                            OLS   Adj. R-squared:                  0.860
     Method:                 Least Squares   F-statistic:                 2.182e+04
-    Date:                Thu, 26 Sep 2019   Prob (F-statistic):               0.00
-    Time:                        20:17:35   Log-Likelihood:            -2.9415e+05
+    Date:                Fri, 27 Sep 2019   Prob (F-statistic):               0.00
+    Time:                        12:03:24   Log-Likelihood:            -2.9415e+05
     No. Observations:               21383   AIC:                         5.883e+05
     Df Residuals:                   21377   BIC:                         5.884e+05
     Df Model:                           6                                         
@@ -1846,8 +1830,8 @@ ols, res = make_ols_model(df = df_trimmed2, columns_to_use = variable_features, 
     Dep. Variable:                  price   R-squared:                       0.874
     Model:                            OLS   Adj. R-squared:                  0.874
     Method:                 Least Squares   F-statistic:                 3.698e+04
-    Date:                Thu, 26 Sep 2019   Prob (F-statistic):               0.00
-    Time:                        20:17:48   Log-Likelihood:            -2.9116e+05
+    Date:                Fri, 27 Sep 2019   Prob (F-statistic):               0.00
+    Time:                        12:03:40   Log-Likelihood:            -2.9116e+05
     No. Observations:               21299   AIC:                         5.823e+05
     Df Residuals:                   21295   BIC:                         5.824e+05
     Df Model:                           4                                         
@@ -1909,10 +1893,10 @@ print(linreg.score(X, y))
 print(linreg.coef_)
 ```
 
-    0.4938369057903701
-    0.515994869007771
-    0.5104536586855222
-    [   219.77245776  41386.95919802 -41427.24999857  -5393.14521393]
+    0.5275910608799861
+    0.5082342912305322
+    0.5132112267321329
+    [   217.36965229  41439.07531927 -40730.90538456  -5007.36216663]
     
 
 
@@ -1921,7 +1905,7 @@ cv = cross_val_score(linreg, X, y, cv=5, n_jobs=-1, scoring='r2', verbose=2)
 ```
 
     [Parallel(n_jobs=-1)]: Using backend LokyBackend with 4 concurrent workers.
-    [Parallel(n_jobs=-1)]: Done   5 out of   5 | elapsed:    0.0s finished
+    [Parallel(n_jobs=-1)]: Done   5 out of   5 | elapsed:    5.3s finished
     
 
 
@@ -1932,7 +1916,7 @@ cv
 
 
 
-    array([0.49332046, 0.48567686, 0.5112569 , 0.52017836, 0.5317454 ])
+    array([0.49328599, 0.49111106, 0.51490508, 0.52540201, 0.53171582])
 
 
 
@@ -1944,7 +1928,7 @@ cv.mean()
 
 
 
-    0.5084355953685233
+    0.5112839912790249
 
 
 
@@ -1956,7 +1940,7 @@ cv.std()
 
 
 
-    0.016944771608444372
+    0.016497064166688655
 
 
 
@@ -1973,7 +1957,7 @@ make_reg_graph(df = df_trimmed2, columns = variable_features, figsize = (15, 10)
 
 
 ```python
-# Removing small outliers from sqft_living and grade
+# Removing outliers from sqft_living and grade
 df_trimmed2 = df_trimmed2.loc[df_trimmed2['sqft_living'] < 12000]
 df_trimmed2 = df_trimmed2.loc[df_trimmed2['grade'] >= 4]
 df_trimmed2 = df_trimmed2.loc[df_trimmed2['grade'] <= 12]
@@ -1990,15 +1974,18 @@ make_reg_graph(df = df_trimmed2, columns = variable_features, figsize = (15, 10)
 ![png](student_files/student_71_0.png)
 
 
-
-```python
-print(linreg.coef_)
-```
-
-    [   218.34404563  39841.07405968 -39241.97702996  -4040.21087669]
-    
-
 ## Results & Summary
+
+### Result Numbers
+My final model ended with an R-Squared of 0.874, indicating that our best fit lines match the data very well for the most part. All P-Values are 0, along with the Probability of F-Statistic, which signals pretty high confidence that our chosen features are not random, and can linearly predict our target. Our Condition Number is pretty low, which in itself doesn't mean there's no multicolinearity, but would be an indicator of it were it higher. Our Skew and Kurtosis, while certainly not perfect, are fairly low which suggests some decent normality throughout our chosen features. Lastly, our Residuals are spread very evenly over their plot, which suggests good homoskedasticity. That means that our errors are consistent across variables, and do not depend on the X Values.
+
+### Summary & Recommendations
+I feel pretty comfortable with this particular model based on the numbers presented above, and in a situation where I'm recommending certain features to a Home Renovation Company to suggest to their customers, I would recommend increasing the house's square footage, total number of rooms (be they bathrooms or bedrooms), the home's grade, which would include improving the building materials and building quality, and the overall condition of the home, in terms of cleanliness and any potential spot-repairs that need to be done.
+
+### Next Steps & Future Work
+Were I to continue investigating the data, I would push towards verifying that the chosen features are not multicolinear which, as it stands they seem to not be based on the Condition Number, but as there are signs of multicolinearity based on the correlation values in the heatmaps.
+
+In the future, I would want to gather more data on other features that could be changed via renovation, such as adding a pool or upgrading the bathroom and kitchen fixtures, to see what effect that could have on the overall price.
 
 
 ```python
