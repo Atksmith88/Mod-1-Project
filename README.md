@@ -752,13 +752,15 @@ df['season'].value_counts()
 
 ## Data Exploration
 
+### Question #1: Which features are variable and non-variable in terms of renovation?
+
 
 ```python
 make_heatmap(df = df, columns = df.columns)
 ```
 
 
-![png](student_files/student_23_0.png)
+![png](student_files/student_24_0.png)
 
 
 
@@ -776,11 +778,11 @@ make_heatmap(df = df, columns = non_variable_features)
 ```
 
 
-![png](student_files/student_24_0.png)
+![png](student_files/student_25_0.png)
 
 
 
-![png](student_files/student_24_1.png)
+![png](student_files/student_25_1.png)
 
 
 
@@ -800,7 +802,7 @@ for i, col in enumerate(non_variable_features):
 ```
 
 
-![png](student_files/student_25_0.png)
+![png](student_files/student_26_0.png)
 
 
 
@@ -820,10 +822,15 @@ for i, col in enumerate(variable_features):
 ```
 
 
-![png](student_files/student_26_0.png)
+![png](student_files/student_27_0.png)
 
+
+### Answer #1: Bedrooms, Bathrooms, Living Area Square Footage, Number of Floors, Home Condition, <br> Home Grade, Year of Renovation, and Season of Home Sale are all features that can be changed.
+While Season isn't directly related to home renovation, it's still something that can be mentioned by a renovation company, to A: Provide their customer with more information, and B: Give their customer a good experience, increasing the likelihood of them being a repeat customer and/or recommending the company to friends and family.
 
 ## Further Examining Variable Features
+
+### Question 2: Of the variable features, which ones can be trimmed down or ignored entirely?
 
 
 ```python
@@ -839,7 +846,7 @@ plt.scatter(df['total_rooms'], df['price'])
 
 
 
-![png](student_files/student_28_1.png)
+![png](student_files/student_31_1.png)
 
 
 
@@ -850,7 +857,7 @@ make_heatmap(df = df, columns = variable_features)
 ```
 
 
-![png](student_files/student_29_0.png)
+![png](student_files/student_32_0.png)
 
 
 
@@ -867,7 +874,7 @@ sns.boxplot(df['condition'], df['price'], showfliers = False)
 
 
 
-![png](student_files/student_30_1.png)
+![png](student_files/student_33_1.png)
 
 
 
@@ -884,7 +891,7 @@ sns.boxplot(df['grade'], df['price'], showfliers = False)
 
 
 
-![png](student_files/student_31_1.png)
+![png](student_files/student_34_1.png)
 
 
 
@@ -901,7 +908,7 @@ sns.boxplot(df['season'], df['price'], showfliers = False)
 
 
 
-![png](student_files/student_32_1.png)
+![png](student_files/student_35_1.png)
 
 
 
@@ -918,7 +925,7 @@ sns.boxplot(df['floors'], df['price'], showfliers = False)
 
 
 
-![png](student_files/student_33_1.png)
+![png](student_files/student_36_1.png)
 
 
 
@@ -929,10 +936,14 @@ make_reg_graph(df, columns = variable_features, figsize = (15, 10))
 ```
 
 
-![png](student_files/student_34_0.png)
+![png](student_files/student_37_0.png)
 
+
+### Question #2 Answer: Bedrooms and Bathrooms can be combined into Total Rooms, outliers can be removed from Total Rooms, Grade, and Sqft Living, and Yr Renovated is mostly 0 values, so needs to either be fixed or dropped.
 
 ## Model Creation & Experimentation
+
+### Question 3: Of the variable features remaining, which ones provide the greatest effect on housing price?
 
 
 ```python
@@ -1033,7 +1044,7 @@ make_reg_graph(df, columns = 'sqft_living_log')
 ```
 
 
-![png](student_files/student_40_0.png)
+![png](student_files/student_45_0.png)
 
 
 
@@ -1087,31 +1098,31 @@ for col in variable_features:
 ```
 
 
-![png](student_files/student_43_0.png)
+![png](student_files/student_48_0.png)
 
 
 
-![png](student_files/student_43_1.png)
+![png](student_files/student_48_1.png)
 
 
 
-![png](student_files/student_43_2.png)
+![png](student_files/student_48_2.png)
 
 
 
-![png](student_files/student_43_3.png)
+![png](student_files/student_48_3.png)
 
 
 
-![png](student_files/student_43_4.png)
+![png](student_files/student_48_4.png)
 
 
 
-![png](student_files/student_43_5.png)
+![png](student_files/student_48_5.png)
 
 
 
-![png](student_files/student_43_6.png)
+![png](student_files/student_48_6.png)
 
 
 
@@ -1170,11 +1181,11 @@ make_residual_plots(residuals = residuals)
 ```
 
 
-![png](student_files/student_47_0.png)
+![png](student_files/student_52_0.png)
 
 
 
-![png](student_files/student_47_1.png)
+![png](student_files/student_52_1.png)
 
 
 ### Experiment #4 Observations
@@ -1630,11 +1641,11 @@ make_residual_plots(residuals = residuals)
 ```
 
 
-![png](student_files/student_56_0.png)
+![png](student_files/student_61_0.png)
 
 
 
-![png](student_files/student_56_1.png)
+![png](student_files/student_61_1.png)
 
 
 
@@ -1825,7 +1836,7 @@ make_reg_graph(df = df_trimmed2, columns = variable_features, figsize = (15, 10)
 ```
 
 
-![png](student_files/student_60_0.png)
+![png](student_files/student_65_0.png)
 
 
 
@@ -1880,11 +1891,11 @@ make_residual_plots(residuals = residuals)
 ```
 
 
-![png](student_files/student_63_0.png)
+![png](student_files/student_68_0.png)
 
 
 
-![png](student_files/student_63_1.png)
+![png](student_files/student_68_1.png)
 
 
 ### Experiment #6 Observations
@@ -1971,8 +1982,10 @@ make_reg_graph(df = df_trimmed2, columns = variable_features, figsize = (15, 10)
 ```
 
 
-![png](student_files/student_71_0.png)
+![png](student_files/student_76_0.png)
 
+
+### Question #3 Answer: Based on the model experimentation, Sqft Living (log normalization), Total Rooms, Grade, and Condition provide the best model to predict a house's sale price. The best recommendations for changes during renovation are these four features, in that order, based on their respective regression graphs.
 
 ## Results & Summary
 
@@ -1985,4 +1998,9 @@ I feel pretty comfortable with this particular model based on the numbers presen
 ### Next Steps & Future Work
 Were I to continue investigating the data, I would push towards verifying that the chosen features are not multicolinear which, as it stands they seem to not be based on the Condition Number, but as there are signs of multicolinearity based on the correlation values in the heatmaps.
 
-In the future, I would want to gather more data on other features that could be changed via renovation, such as adding a pool or upgrading the bathroom and kitchen fixtures, to see what effect that could have on the overall price.
+In the future, I would want to gather more data on other features that could be changed via renovation, such as adding a pool or adding/increasing the size of a garage, to see what effect that could have on the overall price.
+
+
+```python
+
+```
